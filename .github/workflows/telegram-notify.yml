@@ -20,12 +20,10 @@ jobs:
       run: |
         commit_message=$(git log -1 --pretty=%B)
         commit_url=${{ github.event.head_commit.url }}
-        committer_name=${{ github.event.head_commit.committer.name }}
         repo_name=${{ github.repository }}
 
         if [ -z "$commit_message" ]; then commit_message="No commit message"; fi
         if [ -z "$commit_url" ]; then commit_url="No URL available"; fi
-        if [ -z "$committer_name" ]; then committer_name="Unknown committer"; fi
         if [ -z "$repo_name" ]; then repo_name="Unknown repository"; fi
 
         message="New solution added to $repo_name $commit_message - $commit_url"
