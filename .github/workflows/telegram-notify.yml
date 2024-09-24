@@ -12,23 +12,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2  # Ensures the repository is checked out
-    
-    # Debug step: Check BOT_TOKEN and CHAT_ID environment variables
-    - name: Debug: Check environment variables
-      run: |
-        if [ -z "${{ secrets.TELEGRAM_BOT_TOKEN }}" ]; then
-          echo "Error: TELEGRAM_BOT_TOKEN is not set or is empty"
-          exit 1
-        else
-          echo "TELEGRAM_BOT_TOKEN is set."
-        fi
-
-        if [ -z "${{ secrets.TELEGRAM_CHAT_ID }}" ]; then
-          echo "Error: TELEGRAM_CHAT_ID is not set or is empty"
-          exit 1
-        else
-          echo "TELEGRAM_CHAT_ID is set."
-        fi
 
     - name: Send Telegram message
       env:
@@ -47,6 +30,9 @@ jobs:
 
         message="New commit to $repo_name by $committer_name: $commit_message - $commit_url"
         
+        echo "Sending the following curl command:"
+        echo "curl -s -X POST 'https://api.telegram.org/bot${BOT_TOKEN}/sendMessage' -d chat_id=${CHAT_ID} -d text=\"$message\""
+
         curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
         -d chat_id=${CHAT_ID} \
         -d text="$message"
