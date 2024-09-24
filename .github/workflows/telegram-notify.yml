@@ -21,12 +21,14 @@ jobs:
         commit_message=$(git log -1 --pretty=%B)
         commit_url=${{ github.event.head_commit.url }}
         repo_name=${{ github.repository }}
+        repo_url="https://github.com/${{ github.repository }}"
+
 
         if [ -z "$commit_message" ]; then commit_message="No commit message"; fi
         if [ -z "$commit_url" ]; then commit_url="No URL available"; fi
         if [ -z "$repo_name" ]; then repo_name="Unknown repository"; fi
 
-        message="New solution added to $repo_name $commit_message - $commit_url"
+        message="New solution added to $repo_name $commit_message - $repo_url"
         
         curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
         -d chat_id=${CHAT_ID} \
